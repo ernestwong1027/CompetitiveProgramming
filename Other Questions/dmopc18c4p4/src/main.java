@@ -8,55 +8,37 @@
 			StringTokenizer str = new StringTokenizer(br.readLine());
 			int n = Integer.parseInt(str.nextToken());
 			int q = Integer.parseInt(str.nextToken());
-			ArrayList<Integer> adj[] = new ArrayList[200001];
-			for(int i = 0; i <=200000; i++)adj[i] = new ArrayList<Integer>();
+			ArrayList<query> arrlist = new ArrayList<query>();
 			str = new StringTokenizer(br.readLine());
-			long[] psa = new long[n+1];
-			
-			for(int i =1; i <=n; i++)
+			bit = new long[n+1];
+			ArrayList<pair> a = new ArrayList<pair>();
+			for(int i =1 ; i <=n; i++)
 			{
-				int a = Integer.parseInt(str.nextToken());
-				psa[i] = psa[i-1] + a;
-				adj[a].add(i);
+				int x = Integer.parseInt(str.nextToken());
+				a.add(new pair(x,i));
+				update(i,x);
 				
 			}
-			quad[] qs = new quad[q];
-			for(int i =0 ;i <q; i++)
+			Collections.sort(a);
+			for(int i = 1; i <=q; i++)
 			{
 				str = new StringTokenizer(br.readLine());
-				int a = Integer.parseInt(str.nextToken());
-				int b = Integer.parseInt(str.nextToken());
-				int c = Integer.parseInt(str.nextToken());
-				qs[i] = new quad(a,b,c,i);
-				
-				
+				int l = Integer.parseInt(str.nextToken());
+				int r = Integer.parseInt(str.nextToken());
+				int k = Integer.parseInt(str.nextToken());
+				arrlist.add(new query(l,r,k,i));
 			}
-			Arrays.sort(qs);
-			int cnt = 0;
-			bit = new long[n+1];
-			long[] ans = new long[q];
-			for(int i =0 ; i <=200000; i++)
+			long[] ans = new long[q+1];
+			Collections.sort(arrlist);
+			for(int i = 0, j =0; i <q; i++)
 			{
-				for(int j:adj[i])
+				while(j<n && a.get(j).a <arrlist.get(i).q)
 				{
-					//System.out.println(i+ " "+ j + "gayy");
-					update(j,i);
+					update(a.get(j).b, -2*a.get(j).a); j++;
 				}
-				while(cnt <q && qs[cnt].c-1==i)
-				{
-					
-					long anss = 0;
-					anss += psa[qs[cnt].b]-psa[qs[cnt].a-1];
-					//int ansa = anss;
-					anss -= 2*(freqTo(qs[cnt].b)-freqTo(qs[cnt].a-1));
-					//int ansb = anss;
-					ans[qs[cnt].d] = anss;
-					//System.out.println( i + " " + cnt+ " "+ qs[cnt].c + " " + anss + " " + freqTo(qs[cnt].b) + " " + freqTo(qs[cnt].a-1) + " " + ansa + " " + ansb);
-					cnt++;
-				}
+				ans[arrlist.get(i).id] = query(arrlist.get(i).r) - query(arrlist.get(i).l-1);
 			}
-			for(int i =0; i <q; i++)System.out.println(ans[i]);
-			
+			for(int i =1; i <=q; i++)System.out.println(ans[i]);
 			
 		}
 		
@@ -69,9 +51,9 @@
 			}
 		}
 		
-		static long freqTo(int idx)
+		static long query(int idx)
 		{
-			int sum = 0;
+			long sum = 0;
 			while(idx>0)
 			{
 				sum+=bit[idx];
@@ -81,25 +63,40 @@
 		}
 		
 		
-		static class quad implements Comparable<quad>
+		static class pair implements Comparable<pair>
 		{
 			
-			int a,b,c,d;
-			public quad(int a, int b, int c, int d)
+			int a,b;
+			public pair(int a, int b)
 			{
 				this.a = a; 
 				this.b = b;
-				this.c = c;
-				this.d = d;
+				
 			}
 	
 			@Override
-			public int compareTo(quad o) {
+			public int compareTo(pair o) {
 				// TODO Auto-generated method stub
-				return c-o.c;
+				return a-o.a;
 			}
 			
 		}
-		
+		static class query implements Comparable<query>
+		{
+			int l,r,q,id;
+			public query(int l, int r, int q, int id)
+			{
+				this.l = l;
+				this.q =q;
+				this.r = r;
+				this.id = id;
+				
+			}
+			@Override
+			public int compareTo(query o) {
+				// TODO Auto-generated method stub
+				return q-o.q;
+			}
+		}
 	
 	}

@@ -1,4 +1,4 @@
-	import java.io.*;
+import java.io.*;
 	import java.util.*;
 	public class main {
 	
@@ -26,18 +26,11 @@
 				psa[i] = arr[i] + psa[i-1];
 			}
 			int ans = 0;
-			int l = Integer.parseInt(br.readLine());
-			
-			outer: for(int i = n; i>0; i--)
+			long l =Integer.parseInt(br.readLine());
+			for(int left =1, right=1; right<=n; right++)
 			{
-				for(int j = i; j<=n; j++)
-				{
-					if(psa[j]-psa[j-i] <= l)
-					{
-						ans = i;
-						break outer;
-					}
-				}
+				while(psa[right]-psa[left-1]>l) left++;
+				ans = Math.max(ans, right-left+1);
 			}
 			System.out.println(ans);
 	
