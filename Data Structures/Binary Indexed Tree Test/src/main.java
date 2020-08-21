@@ -61,7 +61,7 @@ public class main {
 	}
 	static void update(int idx, int val,long[] bit)
 	{
-		while(idx<=bit.length)
+		while(idx<bit.length)
 		{
 			bit[idx] += val;
 			idx += (idx&-idx);
