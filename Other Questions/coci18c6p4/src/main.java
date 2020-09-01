@@ -33,7 +33,7 @@ public class main {
 			int negnums = i>zeropos? zeropos:i;
 			int posnums = i<pospos? pospos:i;
 			long sumpos = (psa[x-k-1]-psa[i==0? 0:i-1]);
-			long sumneg = 
+			long sumneg = 1;
 			
 			
 			
