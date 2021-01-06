@@ -5,75 +5,70 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Stack;
 
+import java.io.*;
+import java.util.*;
+
 public class Main {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine());
+        for(int i =0; i <T; i++)
+        {
+            int N = Integer.parseInt(br.readLine());
+            Stack<Integer> mt = new Stack<Integer>();
+            Stack<Integer> branch = new Stack<Integer>();
+            for(int j= 0; j<N; j++)
+            {
+                mt.add(Integer.parseInt(br.readLine()));
+            }
+            int cnt = 0;
+            while(true)
+            {
+                if(!mt.isEmpty())
+                {
+                    if(mt.peek() == cnt+1)
+                    {
+                        cnt++;
+                        mt.pop();
+                    }
+                    else if(!branch.isEmpty() && branch.peek() == cnt+1)
+                    {
+                        cnt++;
+                        branch.pop();
+                    }
+                    else if(branch.isEmpty() || mt.peek() < branch.peek())
+                    {
+                        branch.add(mt.pop());
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    if(branch.peek() == cnt+1)
+                    {
+                        cnt++;
+                        branch.pop();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if(cnt==N)break;
+            }
+            if(cnt==N)
+            {
+                System.out.println("Y");
+            }
+            else
+            {
+                System.out.println("N");
+            }
+            
+        }
 
-	public static void main(String[] args) throws IOException{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int tests = Integer.parseInt(br.readLine());
-		
-		for(int i =0; i < tests; i++) 
-		{
-			int numCars = Integer.parseInt(br.readLine());
-			int[] cars = new int[numCars];
-			int counter =0;
-			Stack<Integer> branch = new Stack<Integer>();
-			branch.push(Integer.MAX_VALUE);
-			for(int j =0; j< numCars; j++)
-			{
-				cars[j] = Integer.parseInt(br.readLine());
-			}
-			
-			for(int j=numCars-1; j>=0; j--)
-			{
-				int car = cars[j];
-				
-				if(branch.peek() == counter +1)
-				{
-
-					System.out.println(branch.peek() +"b");
-				
-					branch.pop();
-					counter++;
-				}
-				if(car == counter +1 || car == 1)
-				{
-					System.out.println(car +"a");
-		
-						counter++;
-					
-				}
-				else if(car < branch.peek())
-				{
-					System.out.println(car +"c");
-					
-					branch.push(car);
-				}
-							
-								
-				
-			}
-			while(!branch.isEmpty())
-			{
-				if(branch.pop() == counter +1)
-				{
-					counter++;
-				}
-				else
-				{
-					break;
-				}
-			}
-			//System.out.println(counter);
-			if(counter != numCars)
-			{
-				System.out.println("N");
-			}
-			else
-			{
-				System.out.println("Y");
-			}
-		}
-		
-	}
-
+    }
 }
