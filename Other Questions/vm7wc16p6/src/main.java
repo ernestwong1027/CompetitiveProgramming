@@ -18,8 +18,7 @@ public class main {
 		ap = new boolean[N+1];
 		index = 0;
 		
-		Arrays.fill(parent, -1);
-			
+		
 		
 		for(int i = 0; i <=N; i++) g[i] = new ArrayList<Integer>();
 		
@@ -32,15 +31,15 @@ public class main {
 			g[a].add(b);
 		}
 		tarjan(1);
-		ArrayList<Integer> ans = new ArrayList<Integer>();
+		int ans = 0;
 		for(int i = 1; i <=N; i++)
 		{
-			if(ap[i])ans.add(i);
+			if(ap[i])ans++;
 		}
-		System.out.println(ans.size());
-		for(int e: ans)
+		System.out.println(ans);
+		for(int i = 1; i <=N; i++)
 		{
-			System.out.println(e);
+			if(ap[i])System.out.println(i);
 		}
 		
 	}
@@ -51,17 +50,18 @@ public class main {
 		disc[u] = low[u] = ++index;
 		for(int v: g[u])
 		{
+			if(v==parent[u])continue;
 			if(!visited[v])
 			{
 				children++;
 				parent[v] = u;
 				tarjan(v);
 				low[u] = Math.min(low[v], low[u]);
-				if(parent[u]==-1 && children>1)
+				if(parent[u]==0 && children>1)
 				{
 					ap[u] = true;
 				}
-				if(parent[u] !=-1 && low[v]>=disc[u])
+				if(parent[u] !=0 && low[v]>=disc[u])
 				{
 					ap[u] = true;
 				}
@@ -72,6 +72,10 @@ public class main {
 				low[u] = Math.min(low[u], disc[v]);
 			}
 		}
+		if(parent[u]==0 && children>1)
+				{
+					ap[u] = true;
+				}
 		
 	}
 }

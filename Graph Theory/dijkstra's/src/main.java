@@ -43,7 +43,7 @@ public class main {
 				if( dist[a]+w< dist[b])
 				{
 					dist[b] = dist[a]+w;
-					q.add(new Pair(b,w));
+					q.add(new Pair(b,dist[b]));
 				}
 				else
 				{

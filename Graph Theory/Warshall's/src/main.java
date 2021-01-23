@@ -43,13 +43,13 @@ public class main {
 					}
 				}
 			}
-			for(int i =1; i <=numNodes; i++)
-			{
-				for(int j =1; j<=numNodes; j++)
-				{
-					System.out.println(graph[i][j]);
-				}
-			}
+			// for(int i =1; i <=numNodes; i++)
+			// {
+			// 	for(int j =1; j<=numNodes; j++)
+			// 	{
+			// 		System.out.println(graph[i][j]);
+			// 	}
+			// }
 		}
 		
 		for(int i =1; i <=numNodes; i++)

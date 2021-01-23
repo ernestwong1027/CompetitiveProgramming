@@ -1,63 +1,80 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-
+import java.io.*;
+import java.util.*;
 public class SPFA {
 
-	public static void main(String[] args)throws IOException {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
 		int numNodes = Integer.parseInt(br.readLine());
 		int numEdges = Integer.parseInt(br.readLine());
-		int[][] graph = new int[numNodes+1][numNodes+1];
+		List<Pair> adj[] = new ArrayList[numNodes+1];
+		for(int i =1 ; i <=numNodes; i++) adj[i] = new ArrayList<Pair>();
 		
-		for(int i =0; i < numEdges; i++)
+		for(int i = 0; i < numEdges; i++)
 		{
-			String[] str = br.readLine().split(" ");
-			int a = Integer.parseInt(str[0]);
-			int b = Integer.parseInt(str[1]);
-			int weight = Integer.parseInt(str[2]);
+			StringTokenizer str = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(str.nextToken());
+			int b= Integer.parseInt(str.nextToken());
+			int w = Integer.parseInt(str.nextToken());
 			
-			graph[a][b] = weight;
-			graph[b][a] = weight;
+			adj[a].add(new Pair(b,w));
+			adj[b].add(new Pair(a,w));
 		}
 		
-		String[] str = br.readLine().split(" ");
-		int start = Integer.parseInt(str[0]);
-		int end = Integer.parseInt(str[1]);
+		boolean[] visited = new boolean[numNodes+1];
+		int[] distances = new int[numNodes+1];
+		for(int i =0 ; i<=numNodes; i++)distances[i] = 100000000;
 		
-		int distances[] = new int[numNodes+1];
-		for(int i =1; i <=numNodes; i++)
-		{
-			distances[i] = Integer.MAX_VALUE;
-
-		}
-		
-		Queue<Integer> q = new LinkedList<Integer>();
+		Queue<Pair> q = new LinkedList<Pair>();
+		StringTokenizer str = new StringTokenizer(br.readLine());
+		int start = Integer.parseInt(str.nextToken());
+		int end = Integer.parseInt(str.nextToken());
 		distances[start] = 0;
-		q.add(start);
-		
+		q.add(new Pair(start,0));
 		while(!q.isEmpty())
 		{
-			int num = q.peek();
-			for(int i =0; i < numNodes; i++)
+			int a = q.peek().getF();
+			for(Pair b: adj[a])
 			{
-				if(distances[num] + graph[num][i] < distances[i] && graph[num][i] >0 )
+				if(distances[a] + b.getS() < distances[b.getF()])
 				{
-					distances[i] = distances[num] + graph[num][i];
-					if(!q.contains(i))	q.add(i);
+					distances[b.getF()] = distances[a] +  b.getS();
+					if(!q.contains(b.getF()))	q.add(b);
 				}
 			}
 			q.poll();
 		}
 		
+		
 		System.out.println(distances[end]);
-
 	}
-
+	
 	
 
 }
+
+class Pair implements Comparable<Pair>
+{
+	private int a= 0, b = 0;
+	
+	public Pair(int a, int b)
+	{
+		this.a = a;
+		this.b = b;
+	}
+	public int getF()
+	{
+		return this.a;
+	}
+	public int getS()
+	{
+		return this.b;
+	}
+
+	public int compareTo(Pair o) {
+		int w = o.getS();
+		return this.getS()-w;
+	}
+}
+
+
+
