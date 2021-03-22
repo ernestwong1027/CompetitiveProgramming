@@ -1,1 +1,1 @@
-Collection of 200+ competitive programming questions and algorithms that helped me achieve 75/75 on the 2021 CCC and qualify for the 2021 CCO. Include dynamic programming, graph theory, data structures, tree algorithms and much more
+Collection of 200+ competitive programming questions and algorithms that helped me achieve 75/75 on the 2021 CCC and qualify for the 2021 CCO. Includes dynamic programming, graph theory, data structures, tree algorithms and much more.
