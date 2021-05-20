@@ -65,6 +65,7 @@ public class main {
 		{
 			bit[idx] += val;
 			idx += (idx&-idx);
+			
 		}
 	}
 	

@@ -23,17 +23,16 @@ public class main {
 	}
 	static pair dfs(int a, int parent)
 	{
-		int w = 1;
-		int b = 1;
+		long w = 1;
+		long b = 1;
 		for(int i : adj[a])
 		{
 			if(i==parent)continue;
 			pair p = dfs(i,a);
 			w = ((((p.a%mod)*w)%mod)+(((p.b%mod)*w)%mod))%mod;
-			b =(((p.a%mod)*w)%mod);
-			
+			b = (((p.a%mod)*b)%mod);
 		}
-		return new pair(w,b);
+		return new pair((int)w,(int)b);
 	}
 	static class pair{	
 		int a, b;

@@ -20,7 +20,6 @@ public class SPFA {
 			adj[b].add(new Pair(a,w));
 		}
 		
-		boolean[] visited = new boolean[numNodes+1];
 		int[] distances = new int[numNodes+1];
 		for(int i =0 ; i<=numNodes; i++)distances[i] = 100000000;
 		
@@ -43,7 +42,6 @@ public class SPFA {
 			}
 			q.poll();
 		}
-		
 		
 		System.out.println(distances[end]);
 	}

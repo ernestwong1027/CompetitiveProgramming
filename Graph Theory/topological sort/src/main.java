@@ -21,18 +21,18 @@ public class main {
         boolean[] v = new boolean[N+1];
         int[] sorted = new int[N];
         int i = N-1;
-        for(int j = 1; j<=N; j++)
+        for(int j = 0; j<N; j++)
         {
         	if(!v[j])
         	{
         		i = dfs(i, j, v, sorted, g);
         	}
         }
-        
+        for(int j: sorted)System.out.println(j);
 	}
 	static int dfs(int i, int j, boolean[] v, int[] sorted, ArrayList<Integer>[] g)
     {
-    	v[i] = true;
+    	v[j] = true;
     	for(int a: g[j])
     	{
     		if(!v[a]) {

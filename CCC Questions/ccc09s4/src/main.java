@@ -2,82 +2,89 @@ import java.io.*;
 import java.util.*;
 public class main {
 
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args)throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
-		
-		int t = Integer.parseInt(br.readLine());
-		int[][] graph = new int[n+1][n+1];
-		for(int i =0; i<t; i++)
+		int N = Integer.parseInt(br.readLine());
+		int T = Integer.parseInt(br.readLine());
+		ArrayList<pair>[] g = new ArrayList[N+1];
+		int[][] g1 = new int[N+1][N+1];
+		int[] cost = new int[N+1];
+//		for(int i =0 ; i<=N; i++)g[i] = new ArrayList<pair>();
+		for(int i= 0 ;i <T; i++)
 		{
 			StringTokenizer str = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(str.nextToken());
-			int b = Integer.parseInt(str.nextToken());
-			int w = Integer.parseInt(str.nextToken());
-			graph[a][b] = w;
-			graph[b][a] = w;
+			int x = Integer.parseInt(str.nextToken());
+			int y = Integer.parseInt(str.nextToken());
+			int c = Integer.parseInt(str.nextToken());
+			g1[x][y] = c;
+			g1[y][x] = c;
+//			g[x].add(new pair(y,c));
+//			g[y].add(new pair(x,c));
 		}
-		int[] cost = new int[n+1];
-		Arrays.fill(cost, -1);
-		int k = Integer.parseInt(br.readLine());
-		for(int i =0 ;i<k; i++)
-		{
+		int K = Integer.parseInt(br.readLine());
+		for(int i =0 ;i <K; i++) {
 			StringTokenizer str = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(str.nextToken());
-			int b = Integer.parseInt(str.nextToken());
-			
-			cost[a] = b;
-			
+			cost[Integer.parseInt(str.nextToken())] = Integer.parseInt(str.nextToken());
 		}
-		
-		Queue<Integer> q = new LinkedList<Integer>();
-		
-		int start = Integer.parseInt(br.readLine());
-		
-		int[] dist = new int[n+1];
-		Arrays.fill(dist, Integer.MAX_VALUE);
-		dist[start] = 0;
-		q.add(start);
-		while(!q.isEmpty())
+		int D = Integer.parseInt(br.readLine());
+//		PriorityQueue<pair> pq = new PriorityQueue<pair>();
+		int[] dist = new int[N+1];
+		boolean[] visited = new boolean[N+1];
+		Arrays.fill(dist, 1000000000);
+		dist[D] = 0;
+		int count = 0;
+		while(count<N)
 		{
-			int x = q.poll();
-			for(int i =1; i <=n; i++)
+			int a = 0;
+			int b = Integer.MAX_VALUE;
+			for(int i=1; i<=N; i++)
 			{
-				if(dist[x] + graph[x][i] < dist[i] && graph[x][i]!=0 )
+				if(b>dist[i] && !visited[i])
 				{
-					q.add(i);
-					dist[i] = dist[x] + graph[x][i];
+					a = i;
+					b = dist[i];
+				}
+			}
+			count++;
+			visited[a] = true;
+//			for(pair x : g[a])
+//			{
+//				if(visited[x.a])continue;
+//				if(dist[a] + x.b < dist[x.a])
+//				{
+//					dist[x.a] = dist[a] + x.b;
+//				}
+//			}
+			for(int i =1; i<=N; i++)
+			{
+				if(!visited[i] && g1[a][i] >0)
+				{
+					if(dist[a] + g1[a][i] < dist[i])
+						{
+							dist[i] = dist[a] + g1[a][i];
+						}
 				}
 			}
 		}
 		int ans = Integer.MAX_VALUE;
-		for(int i = 0; i<=n; i++)
+		for(int i = 1; i<=N; i++)
 		{
-			if(cost[i]>=0)
-			{
-				ans = Math.min(ans, cost[i]+dist[i]);
-			}
+			if(cost[i]!=0)ans = Math.min(ans, cost[i]+dist[i]);
 		}
 		System.out.println(ans);
+	}
+	static class pair implements Comparable<pair>{
+		int a, b;
+		public pair(int a, int b)
+		{
+			this.a = a;
+			this.b = b;
+		}
+		@Override
+		public int compareTo(main.pair o) {
+			// TODO Auto-generated method stub
+			return this.b-o.b;
+		}
 		
-	}
-	
-}
-
-class pair
-{
-	int b, w;
-	public pair(int b, int w)
-	{
-		this.b = b; 
-		this.w = w;
-	}
-	public int getb()
-	{
-		return this.b;
-	}
-	public int getW()
-	{
-		return this.w;
 	}
 }
